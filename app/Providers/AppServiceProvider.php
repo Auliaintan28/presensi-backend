@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Pagination\Paginator;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +27,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        Paginator::useBootstrap();
+        date_default_timezone_set('Asia/Makassar');
+        config(['app.timezone' => 'Asia/Makassar']);
+        \Carbon\Carbon::setLocale('id');
     }
 }

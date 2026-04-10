@@ -13,14 +13,25 @@ class CreateTablePresensi extends Migration
      */
     public function up()
     {
-        Schema::create('presensis', function (Blueprint $table) {
+        Schema::create('presensi', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->decimal('latitude', 12, 5);
-            $table->decimal('longitude', 12, 5);
+            $table->foreignId('user_id')
+                  ->constrained('users') 
+                  ->onDelete('cascade');
             $table->date('tanggal');
+
+            // --- DATA MASUK ---
             $table->time('masuk');
-            $table->time('pulang')->nullable(true);
+            $table->decimal('latitude_datang', 12, 5);
+            $table->decimal('longitude_datang', 12, 5);
+            $table->boolean('is_terlambat')->default(false); // Status Datang
+
+            // --- DATA PULANG (WAJIB NULLABLE) ---
+            $table->time('pulang')->nullable(); // <-- INI PENTING
+            $table->decimal('latitude_pulang', 12, 5)->nullable(); // <-- INI PENTING
+            $table->decimal('longitude_pulang', 12, 5)->nullable(); // <-- INI PENTING
+            $table->boolean('is_pulang_cepat')->default(false)->nullable(); // <-- INI PENTING
+
             $table->timestamps();
         });
     }
@@ -32,6 +43,6 @@ class CreateTablePresensi extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_presensi');
+        Schema::dropIfExists('presensi'); 
     }
 }

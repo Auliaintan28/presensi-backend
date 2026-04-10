@@ -26,8 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $presensis = Presensi::select('presensis.*', 'users.name')
-                        ->join('users', 'presensis.user_id', '=', 'users.id')
+        $presensis = Presensi::select('presensi.*', 'users.name')
+                        ->join('users', 'presensi.user_id', '=', 'users.id')
                         ->get();
         foreach($presensis as $item) {
             $datetime = Carbon::parse($item->tanggal)->locale('id');
